@@ -1,4 +1,13 @@
 # db-connector
+The goal of this project is to port over the database related items from the cli tools we've built. Our expectation is users should have the ability to utilize the `query` and `connect` commands from our cli tool. The goal here is to port over any dependant code from the cli tool including the database folder, its dependencies and functionality. 
+
+For info on how to test the db-connector once you've migrated over the sql related items is using supabase.
+
+1. Visit this link to setup a free supabase account, https://supabase.com/dashboard/sign-in?
+2. You can find free datasets online on kaggle, https://www.kaggle.com/
+3. Once you've setup supabase, import your data into the supabase database
+4. After importing, navigate into supabase and find your db URI connection info
+5. Begin testing the migrated code
 
 ### Setting up dev env
 At this point you should've setup your virtual env
