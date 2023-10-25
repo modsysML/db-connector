@@ -14,10 +14,14 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import db
+
 from .base import AbstractFirebaseClient
 
-class FirebaseClient(AbstractFirebaseClient):
 
+class FirebaseClient(AbstractFirebaseClient):
     @staticmethod
     def foo(argument):
         return argument
