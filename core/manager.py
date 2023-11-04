@@ -14,9 +14,41 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from core import get_firebase_client
+from core import get_firebase_client, get_provider_client, get_supabase_client
+from core.exceptions import EmptyResultsWarning
+
+
+class PostgresConnectionManager:
+    @staticmethod
+    def connect_to_prefix(uri):
+        return get_supabase_client(uri)
+
+    @staticmethod
+    def convert_dict(items):
+        if not items:
+            raise EmptyResultsWarning(items)
+
+        vector = []
+
+        for i in items:
+            vector.append(dict(i))
+
+        return vector
+
 
 class FirebaseConnectionManager:
     @staticmethod
     def connect_to_prefix(service_account_key):
         return get_firebase_client(service_account_key)
+
+
+class ProviderConnectionManager:
+    @staticmethod
+    def load_provider(provider_path, *args, **kwargs):
+        secret = kwargs["secret"] if "secret" in kwargs else None
+        api_user = kwargs["api_user"] if "api_user" in kwargs else None
+        return get_provider_client(
+            provider_path,
+            secret=secret,
+            api_user=api_user,
+        )

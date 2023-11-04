@@ -32,3 +32,8 @@ def get_supabase_client(connection_string) -> AbstractSupabaseClient:
 def get_firebase_client(service_account_key) -> AbstractFirebaseClient:
     client = import_string(FIREBASE_CLIENT_CLASS)
     return client(service_account_key)
+
+
+# todo: integrate into client
+def get_provider_client(provider_path: str, *args, **kwargs):
+    pass

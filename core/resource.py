@@ -14,7 +14,12 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from core.manager import FirebaseConnectionManager
+from core.const import QUERY_CONTEXT
+from core.manager import (
+    FirebaseConnectionManager,
+    PostgresConnectionManager,
+    ProviderConnectionManager,
+)
 
 
 class Firebase:
@@ -22,5 +27,24 @@ class Firebase:
 
     _firebase_curs = None
 
-class General(Firebase):
-    pass
+
+class Postgres:
+    # Specific sql queries
+    _context = QUERY_CONTEXT
+
+    # Database utility class
+    _manager = PostgresConnectionManager()
+
+    # curosr instance
+    psql_curs = None
+
+
+class General(
+    Firebase,
+    Postgres,
+):
+    # Current LLM to be used
+    model = None
+
+    # Class instance connection manager to AI providers
+    _api_manager = ProviderConnectionManager()
