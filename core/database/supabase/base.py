@@ -15,20 +15,6 @@
 #    under the License.
 
 
-from core.const import REST_CLIENT_CLASS, SUPABASE_CLIENT_CLASS
-from core.database.firebase.base import AbstractFirebaseClient, FIREBASE_CLIENT_CLASS
-from django.utils.module_loading import import_string
-
-from django.utils.module_loading import import_string
-
-from core.database.supabase.base import AbstractSupabaseClient
-
-
-def get_supabase_client(connection_string) -> AbstractSupabaseClient:
-    client = import_string(SUPABASE_CLIENT_CLASS)
-    return client(connection_string)
-
-
-def get_firebase_client(service_account_key) -> AbstractFirebaseClient:
-    client = import_string(FIREBASE_CLIENT_CLASS)
-    return client(service_account_key)
+class AbstractSupabaseClient:
+    def execute(self, sql):
+        raise NotImplementedError
