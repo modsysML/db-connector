@@ -35,12 +35,12 @@ GOOGLE_PERSPECTIVE_CLIENT_CLASS = os.environ.get(
 
 # Supabase support
 SUPABASE_CLIENT_CLASS = os.environ.get(
-    "SUPABASE_CLIENT_CLASS", "modsys.database.supabase.SupabaseClient"
+    "SUPABASE_CLIENT_CLASS", "core.database.supabase.SupabaseClient"
 )
 
 # Firebase support
 FIREBASE_CLIENT_CLASS = os.environ.get(
-    "FIREBASE_CLIENT_CLASS", "modsys.database.firebase.FirebaseClient"
+    "FIREBASE_CLIENT_CLASS", "core.database.firebase.FirebaseClient"
 )
 
 # Service client

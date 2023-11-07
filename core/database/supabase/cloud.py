@@ -18,8 +18,8 @@ import psycopg as pgi_connector
 import psycopg2
 import psycopg2.extras
 
-from modsys.database.supabase.base import AbstractSupabaseClient
-from modsys.exceptions import PostgresConnectionError, PostgresExecutionError
+from core.database.supabase.base import AbstractSupabaseClient
+from core.exceptions import PostgresConnectionError, PostgresExecutionError
 
 
 class SupabaseClient(AbstractSupabaseClient):
@@ -38,8 +38,8 @@ class SupabaseClient(AbstractSupabaseClient):
 
         response = None
         with con:
-
             cursor = con.cursor(cursor_factory=psycopg2.extras.DictCursor)
+            print(str(sql))
             cursor.execute(str(sql))
 
             response = cursor.fetchall()

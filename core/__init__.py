@@ -14,13 +14,10 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-
-from core.const import REST_CLIENT_CLASS, SUPABASE_CLIENT_CLASS
-from core.database.firebase.base import AbstractFirebaseClient, FIREBASE_CLIENT_CLASS
 from django.utils.module_loading import import_string
 
-from django.utils.module_loading import import_string
-
+from core.const import FIREBASE_CLIENT_CLASS, SUPABASE_CLIENT_CLASS
+from core.database.firebase.base import AbstractFirebaseClient
 from core.database.supabase.base import AbstractSupabaseClient
 
 
@@ -32,8 +29,3 @@ def get_supabase_client(connection_string) -> AbstractSupabaseClient:
 def get_firebase_client(service_account_key) -> AbstractFirebaseClient:
     client = import_string(FIREBASE_CLIENT_CLASS)
     return client(service_account_key)
-
-
-# todo: integrate into client
-def get_provider_client(provider_path: str, *args, **kwargs):
-    pass

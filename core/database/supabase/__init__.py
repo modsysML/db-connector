@@ -14,7 +14,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from .cloud import SupabaseClient
-from .local import FakeSupabaseClient
+from core.database.supabase.cloud import SupabaseClient
+from core.database.supabase.local import FakeSupabaseClient
 
 __all__ = ["SupabaseClient", "FakeSupabaseClient"]

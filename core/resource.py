@@ -15,17 +15,7 @@
 #    under the License.
 
 from core.const import QUERY_CONTEXT
-from core.manager import (
-    FirebaseConnectionManager,
-    PostgresConnectionManager,
-    ProviderConnectionManager,
-)
-
-
-class Firebase:
-    _manager = FirebaseConnectionManager()
-
-    _firebase_curs = None
+from core.manager import FirebaseConnectionManager, PostgresConnectionManager
 
 
 class Postgres:
@@ -39,12 +29,15 @@ class Postgres:
     psql_curs = None
 
 
+class Firebase:
+    _manager = FirebaseConnectionManager()
+
+    _firebase_curs = None
+
+
 class General(
-    Firebase,
     Postgres,
+    Firebase,
 ):
     # Current LLM to be used
     model = None
-
-    # Class instance connection manager to AI providers
-    _api_manager = ProviderConnectionManager()

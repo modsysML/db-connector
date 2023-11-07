@@ -14,7 +14,8 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from modsys.database.supabase.base import AbstractSupabaseClient
+
+from core.database.supabase.base import AbstractSupabaseClient
 
 
 class FakeSupabaseClient(AbstractSupabaseClient):
