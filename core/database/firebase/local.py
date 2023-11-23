@@ -16,8 +16,29 @@
 
 from .base import AbstractFirebaseClient
 
-class FakeFirebaseClient(AbstractFirebaseClient):
 
-    @staticmethod
-    def foo(argument):
-        raise NotImplementedError
+class LocalFirebaseClient(AbstractFirebaseClient):
+    def initialize_firebase(self):
+        print("Initializing local Firebase client")
+        # Mock  logic
+
+    def execute(self, path, action="get", data=None):
+        if not path:
+            raise ValueError("Path is required for Firebase operations")
+
+        print(f"Executing {action} on path: {path}")
+
+        if action == "get":
+            return "Mocked data"
+        elif action == "set":
+            if data is None:
+                raise ValueError("Data is required for 'set' action")
+            self.mock_database[path] = data
+            return "Data set successfully in mock database"
+        elif action == "update":
+            if data is None:
+                raise ValueError("Data is required for 'update' action")
+            self.mock_database[path] = {**self.mock_database.get(path, {}), **data}
+            return "Data updated successfully in mock database"
+        else:
+            raise ValueError(f"Unsupported action: {action}")
