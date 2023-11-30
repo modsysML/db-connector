@@ -15,13 +15,92 @@
 #    under the License.
 
 import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import db
+from firebase_admin import credentials, firestore
 
-from .base import AbstractFirebaseClient
+from core.const import TEST_ACCOUNT
+from core.database.firebase.base import AbstractFirebaseClient
+from core.exceptions import FirebaseConnectionError
 
 
+# https://firebase.google.com/docs/admin/setup?authuser=0#python
 class FirebaseClient(AbstractFirebaseClient):
-    @staticmethod
-    def foo(argument):
-        return argument
+    def __init__(self, service_account_key):
+        self.project_id = None
+        self.database_url = None
+        self.service_account_key = service_account_key
+
+    def init_with_service_account(self):
+        """
+        Initialize the Firestore DB client using a service account
+        :param file_path: path to service account
+        :return: firestore
+        """
+        # cred = credentials.Certificate(self.service_account_key) FIXME:
+        cred = credentials.Certificate(TEST_ACCOUNT)
+        try:
+            firebase_admin.initialize_app(cred)
+            return firestore.client()
+        except Exception as err:
+            raise FirebaseConnectionError(err)
+
+    def init_with_project_id(self):
+        """
+        Initialize the Firestore DB client using a GCP project ID
+        :param project_id: The GCP project ID
+        :return: firestore
+        """
+        # cred = credentials.ApplicationDefault()
+        app_options = {"projectId": self.project_id}
+        try:
+            firebase_admin.get_app()
+        except ValueError:
+            firebase_admin.initialize_app(options=app_options)
+        return firestore.client()
+
+    def init_with_database_url(self):
+        cred = credentials.Certificate(self.service_account_key)
+        try:
+            firebase_admin.initialize_app(
+                cred,
+                {"databaseURL": self.database_url},
+            )
+            return firestore.client()
+        except Exception as err:
+            raise FirebaseConnectionError(err)
+
+    def close(self):
+        # NOTE can check for live connections as well: firebase_admin._apps)
+        firebase_admin.delete_app(firebase_admin.get_app())
+
+    # TODO: add custom exception and return a custom warning
+    def execute(self, collection_name):
+        if not self.service_account_key:
+            return
+
+        try:
+            cursor = self.init_with_service_account()
+        except:
+            raise ValueError
+
+        response = [
+            item.to_dict()
+            for item in cursor.collection(collection_name).limit(10).get()
+        ]
+        self.close()
+
+        return response
+
+    # TODO: add custom exception and return a custom warning
+    def list_tables(self):
+        if not self.service_account_key:
+            return
+
+        try:
+            cursor = self.init_with_service_account()
+        except:
+            raise ValueError
+
+        collections = [collection.id for collection in cursor.collections()]
+        self.close()
+
+        return collections

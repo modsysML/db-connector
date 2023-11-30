@@ -16,7 +16,33 @@
 
 
 class AbstractFirebaseClient:
+    def execute(self, nosql):
+        return NotImplementedError
 
-    @staticmethod
-    def foo(argument):
-        raise NotImplementedError
+    def init_with_service_account(self):
+        """
+        Initialize the Firestore DB client using a service account
+        :param file_path: path to service account
+        :return: firestore
+        """
+        return NotImplementedError
+
+    def init_with_project_id(self):
+        """
+        Initialize the Firestore DB client using a GCP project ID
+        :param project_id: The GCP project ID
+        :return: firestore
+        """
+        return NotImplementedError
+
+    def init_with_database_url(self):
+        return NotImplementedError
+
+    def close():
+        return NotImplementedError
+
+    def execute(self, collection_name):
+        return NotImplementedError
+
+    def list_tables(self):
+        return NotImplementedError
